@@ -7,5 +7,5 @@ mvn clean package
 
 ## Lancer le projet 
 ```
-java -cp target/classes com.lucasple.treeftp.App
+java -cp target/classes com.lucasple.treeftp.app.App
 ```
