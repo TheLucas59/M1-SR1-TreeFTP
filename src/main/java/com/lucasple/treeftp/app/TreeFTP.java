@@ -2,7 +2,9 @@ package com.lucasple.treeftp.app;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.logging.Logger;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.lucasple.treeftp.connection.ConnectionHandler;
 
@@ -13,6 +15,8 @@ import com.lucasple.treeftp.connection.ConnectionHandler;
  */
 
 public class TreeFTP {
+	
+	private static final Log LOGGER = LogFactory.getLog(TreeFTP.class);
 	
 	private static final int NB_PARAMS_MIN_EXPECTED = 1;
 	private static final int NB_PARAMS_MAX_EXPECTED = 3;
@@ -35,7 +39,7 @@ public class TreeFTP {
     		connection = ConnectionHandler.openConnection(address, FTP_PORT, login, password);
     	}
     	else {
-    		Logger.getAnonymousLogger().info("Provide at least the arguments required : <address> and if you want the two following : <login> <password>");
+    		LOGGER.info("Provide at least the arguments required : <address> and if you want the two following : <login> <password>");
     		System.exit(1);
     	}
     	

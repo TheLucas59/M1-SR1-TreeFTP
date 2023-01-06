@@ -3,8 +3,11 @@ package com.lucasple.treeftp.connection;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Map.Entry;
-import java.util.logging.Logger;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import com.lucasple.treeftp.commands.FTPPass;
 import com.lucasple.treeftp.commands.FTPUser;
 import com.lucasple.treeftp.exceptions.CommandFailedException;
 import com.lucasple.treeftp.utils.FTPUtils;
@@ -17,7 +20,7 @@ import com.lucasple.treeftp.utils.SocketUtils;
  */
 public class ConnectionHandler {
 	
-	private static final Logger LOGGER = Logger.getAnonymousLogger();
+	private static final Log LOGGER = LogFactory.getLog(ConnectionHandler.class);
 	
 	private static final int EXPECTED_CONNECTION_STATUS_CODE = 220;
 	
@@ -53,11 +56,11 @@ public class ConnectionHandler {
 				return s;
 			}
 			else {
-				LOGGER.warning("Connection to server returned an unexpected status : " + response.getKey() + " : " + response.getValue());
+				LOGGER.warn("Connection to server returned an unexpected status : " + response.getKey() + " : " + response.getValue());
 				return null;
 			}
 		} catch (IOException | CommandFailedException e) {
-			Logger.getAnonymousLogger().severe(e.getMessage());
+			LOGGER.error("The connection to the distant server has failed", e);
 			System.exit(1);
 		}
 		return null;
@@ -72,11 +75,13 @@ public class ConnectionHandler {
 	 */
 	private static void authenticate(Socket s, String login, String password) {
 		FTPUser userCommand = new FTPUser(login);
+		FTPPass passCommand = new FTPPass(password);
 		try {
 			userCommand.run(s);
+			passCommand.run(s);
 		}
 		catch(CommandFailedException ce) {
-			LOGGER.severe(ce.getMessage());
+			LOGGER.error("Command failed", ce);
 		}
 	}
 }

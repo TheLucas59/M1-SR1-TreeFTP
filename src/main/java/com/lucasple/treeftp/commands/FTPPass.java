@@ -4,14 +4,14 @@ import java.io.PrintWriter;
 
 import com.lucasple.treeftp.utils.SocketUtils;
 
-public class FTPUser extends FTPCommand {
+public class FTPPass extends FTPCommand {
 	
-	private String login;
+	private String password;
 	
-	public FTPUser(String login) {
-		this.commandName = "USER";
-		this.expectedStatusCode = 331;
-		this.login = login;
+	public FTPPass(String password) {
+		this.commandName = "PASS";
+		this.expectedStatusCode = 230;
+		this.password = password;
 	}
 
 	@Override
@@ -19,7 +19,7 @@ public class FTPUser extends FTPCommand {
 		StringBuilder commandBuilder = new StringBuilder();
 		commandBuilder.append(this.commandName);
 		commandBuilder.append(" ");
-		commandBuilder.append(this.login);
+		commandBuilder.append(this.password);
 		SocketUtils.sendMessageWithFlush(writer, commandBuilder.toString());
 	}
 
