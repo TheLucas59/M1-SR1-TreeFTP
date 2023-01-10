@@ -6,6 +6,8 @@ import java.net.Socket;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.lucasple.treeftp.commands.FTPPasv;
+
 /**
  * Class called in main method to handle the connection to the distant server and list the files on the server
  * @author lucas
@@ -28,6 +30,10 @@ public class FTPClient {
 		String connectedPath = FTPClient.printWorkingDirectory(connection);
 		
 		LOGGER.info(connectedPath + " is the current working directory");
+		
+		FTPPasv pasv = FTPClient.passiveMode(connection);
+		
+		LOGGER.info("address : " + pasv.getAddress() + " port : " + pasv.getPort());
 
 		try {
 			connection.close();
@@ -56,5 +62,9 @@ public class FTPClient {
 	 */
 	public static String printWorkingDirectory(Socket s) {
 		return ListingHandler.printWorkingDirectory(s);
+	}
+	
+	public static FTPPasv passiveMode(Socket s) {
+		return ListingHandler.passiveMode(s);
 	}
 }
