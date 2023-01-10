@@ -1,4 +1,4 @@
-package com.lucasple.treeftp.connection;
+package com.lucasple.treeftp.communication;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -63,7 +63,7 @@ public class ConnectionHandler {
 			LOGGER.error("The connection to the distant server has failed", e);
 			System.exit(1);
 		}
-		return null;
+		return s;
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class ConnectionHandler {
 			passCommand.run(s);
 		}
 		catch(CommandFailedException ce) {
-			LOGGER.error("Command failed", ce);
+			LOGGER.error("Connection failed", ce);
 		}
 	}
 }
