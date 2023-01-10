@@ -8,8 +8,7 @@ import java.net.Socket;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.lucasple.treeftp.communication.ConnectionHandler;
-import com.lucasple.treeftp.communication.ListingHandler;
+import com.lucasple.treeftp.communication.SocketData;
 import com.lucasple.treeftp.utils.SocketUtils;
 
 public class FTPList extends FTPCommand {
@@ -18,11 +17,11 @@ public class FTPList extends FTPCommand {
 	
 	private Socket dataSocket;
 	private int expectedStatusCodeEndData;
-	FTPPasv pasv;
+	private SocketData socketData;
 	
-	public FTPList(FTPPasv pasv) {
+	public FTPList(SocketData socketData) {
 		this.commandName = "LIST";
-		this.pasv = pasv;
+		this.socketData = socketData;
 		this.expectedStatusCode = 150;
 		this.expectedStatusCodeEndData = 226;
 	}
@@ -30,13 +29,7 @@ public class FTPList extends FTPCommand {
 	@Override
 	protected void callCommand(PrintWriter writer) {
 		SocketUtils.sendMessageWithFlush(writer, this.commandName);
-		Socket dataSocket = null;
-		try {
-			dataSocket = new Socket(pasv.getAddress(), pasv.getPort());
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		this.socketData.open();
 		BufferedReader reader = SocketUtils.getReadableInputStream(dataSocket);
 		String line = "";
 		try {

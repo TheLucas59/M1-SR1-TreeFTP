@@ -27,7 +27,7 @@ public abstract class FTPCommand {
 	/**
 	 * Return the server response for the run command
 	 * @param s The Socket to communicate with the server
-	 * @return A Map Entry which will hae the status code as the key and the following message as the value
+	 * @return A Map Entry which will have the status code as the key and the following message as the value
 	 * @throws CommandFailedException If there is a problem while running the command
 	 */
 	public Entry<Integer, String> run(Socket s) throws CommandFailedException {
