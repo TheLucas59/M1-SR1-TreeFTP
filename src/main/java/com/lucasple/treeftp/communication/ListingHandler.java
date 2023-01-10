@@ -59,11 +59,16 @@ public class ListingHandler {
 		String[] addressAndPort = informations.split(",");
 		if(addressAndPort != null && addressAndPort.length > 0) {
 			String[] address = new String[] { addressAndPort[0], addressAndPort[1], addressAndPort[2], addressAndPort[3] };
-			String port = addressAndPort[4] + addressAndPort[5];
+			String port = addressAndPort[4];
 			pasv.setAddress(String.join(".", address));
-			pasv.setPort(Integer.parseInt(port));
+			pasv.setPort(Integer.parseInt(port)*256 + Integer.parseInt(addressAndPort[5]));
 		}
 		
 		return pasv;
 	}
+	
+	public static Socket openDataConnection(FTPPasv pasv) {
+		return ConnectionHandler.openConnection(pasv.getAddress(), pasv.getPort());
+	}
+	
 }

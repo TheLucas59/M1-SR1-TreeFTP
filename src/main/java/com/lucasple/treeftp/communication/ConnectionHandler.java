@@ -27,32 +27,19 @@ public class ConnectionHandler {
 	private ConnectionHandler() {}
 	
 	/**
-	 * Overload method that calls openConnection with no login and password
+	 * Method that establish a connection between this client and an FTP Server and tries to authenticate with the 
+	 * provided credentials. 
 	 * @param address The address of the server to connect to
 	 * @param port The port to connect to
 	 * @return The Socket if the connection and authentication steps have been made, null otherwise
 	 */
 	public static Socket openConnection(String address, int port) {
-		return openConnection(address, port, "", "");
-	}
-	
-	/**
-	 * Method that establish a connection between this client and an FTP Server and tries to authenticate with the 
-	 * provided credentials. 
-	 * @param address The address of the server to connect to
-	 * @param port The port to connect to
-	 * @param login The login meant to be used with the USER command once the Socket is connected
-	 * @param password The password meant to be use with the PASS command once the Socket is connected
-	 * @return The Socket if the connection and authentication steps have been made, null otherwise
-	 */
-	public static Socket openConnection(String address, int port, String login, String password) {
 		Socket s = null;
 		try {
 			s = new Socket(address, port);
 			Entry<Integer, String> response = FTPUtils.getFTPResponse(SocketUtils.getReadableInputStream(s));
 			if(response.getKey() == EXPECTED_CONNECTION_STATUS_CODE) {
 				LOGGER.info("Now Connected with " + address);
-				authenticate(s, login, password);
 				return s;
 			}
 			else {
@@ -73,7 +60,7 @@ public class ConnectionHandler {
 	 * @param login The login that will be used with the USER command
 	 * @param password The password that will be used with the PASS command
 	 */
-	private static void authenticate(Socket s, String login, String password) {
+	public static void authenticate(Socket s, String login, String password) {
 		FTPUser userCommand = new FTPUser(login);
 		FTPPass passCommand = new FTPPass(password);
 		try {

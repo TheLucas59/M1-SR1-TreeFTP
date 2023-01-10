@@ -6,7 +6,9 @@ import java.net.Socket;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.lucasple.treeftp.commands.FTPList;
 import com.lucasple.treeftp.commands.FTPPasv;
+import com.lucasple.treeftp.exceptions.CommandFailedException;
 
 /**
  * Class called in main method to handle the connection to the distant server and list the files on the server
@@ -25,7 +27,8 @@ public class FTPClient {
 	 * Method called to handle all the process of connection and listing of files on the server
 	 */
 	public static void handle(String address, int port, String login, String password) {
-		Socket connection = FTPClient.openConnection(address, port, login, password);
+		Socket connection = FTPClient.openConnection(address, port);
+		authenticate(login, password, connection);
 		
 		String connectedPath = FTPClient.printWorkingDirectory(connection);
 		
@@ -35,12 +38,29 @@ public class FTPClient {
 		
 		LOGGER.info("address : " + pasv.getAddress() + " port : " + pasv.getPort());
 
+		FTPList list = new FTPList(pasv);
+		try {
+			list.run(connection);
+		} catch (CommandFailedException e1) {
+			e1.printStackTrace();
+		}
+		
 		try {
 			connection.close();
 		}
 		catch(IOException e) {
 			LOGGER.error("Error when closing socket", e);
 		}
+	}
+
+	/**
+	 * Authenticate the client on the distant FTP server
+	 * @param login The login to use on the distant server
+	 * @param password The password to use on the distant server
+	 * @param connection The socket connected to the distant server
+	 */
+	private static void authenticate(String login, String password, Socket connection) {
+		ConnectionHandler.authenticate(connection, login, password);
 	}
 
 	/**
@@ -51,8 +71,8 @@ public class FTPClient {
 	 * @param password The password to connect in FTP
 	 * @return The socket connected to the distant server
 	 */
-	public static Socket openConnection(String address, int port, String login, String password) {
-		return ConnectionHandler.openConnection(address, port, login, password);
+	public static Socket openConnection(String address, int port) {
+		return ConnectionHandler.openConnection(address, port);
 	}
 	
 	/**
