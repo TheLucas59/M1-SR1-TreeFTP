@@ -75,10 +75,20 @@ public class FTPClient {
 		return ListingHandler.printWorkingDirectory(s);
 	}
 	
+	/**
+	 * Open a new socket to receive data from the distant server
+	 * @param s The socket connected to the distant server
+	 * @return A socket to receive data in passive mode from the server
+	 */
 	public static SocketData passiveMode(Socket s) {
 		return ListingHandler.passiveMode(s);
 	}
 	
+	/**
+	 * Calls the FTP LIST command on the distant server
+	 * @param s The socket connected to the distant server
+	 * @param socketData The socket connected to the distant server to receive data in passive mode
+	 */
 	public static void listDirectory(Socket s, SocketData socketData) {
 		ListingHandler.listDirectory(s, socketData);
 	}

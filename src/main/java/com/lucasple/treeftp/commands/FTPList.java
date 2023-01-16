@@ -30,7 +30,7 @@ public class FTPList extends FTPCommand {
 	protected void callCommand(PrintWriter writer) {
 		SocketUtils.sendMessageWithFlush(writer, this.commandName);
 		this.socketData.open();
-		BufferedReader reader = SocketUtils.getReadableInputStream(dataSocket);
+		BufferedReader reader = SocketUtils.getReadableInputStream(this.socketData.getSocket());
 		String line = "";
 		try {
 			while((line = reader.readLine()) != null) {

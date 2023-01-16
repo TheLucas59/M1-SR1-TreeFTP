@@ -15,6 +15,11 @@ public class ListingHandler {
 	
 	private static final Log LOGGER = LogFactory.getLog(ListingHandler.class);
 
+	/**
+	 * Calls the FTP PWD command on the distant server
+	 * @param s The socket connected to the distant server
+	 * @return The name of the current directory
+	 */
 	public static String printWorkingDirectory(Socket s) {
 		FTPPwd pwd = new FTPPwd();
 		Entry<Integer, String> result = null;
@@ -34,6 +39,11 @@ public class ListingHandler {
 		return resultPhrase.substring(resultPhrase.indexOf("\"")+1, resultPhrase.lastIndexOf("\""));
 	}
 	
+	/**
+	 * Calls the FTP PASV command on the distant server
+	 * @param s The socket connected to the distant server
+	 * @return A new socket to receive data in passive mode from the distant server
+	 */
 	public static SocketData passiveMode(Socket s) {
 		FTPPasv pasv = new FTPPasv();
 		
@@ -69,6 +79,11 @@ public class ListingHandler {
 		return socketData;
 	}
 	
+	/**
+	 * Calls the FTP LIST command on the distant server
+	 * @param s The socket connected to the distant server
+	 * @param socketData The socket to receive data in passive mode from the distant server
+	 */
 	public static void listDirectory(Socket s, SocketData socketData) {
 		FTPList list = new FTPList(socketData);
 		try {
