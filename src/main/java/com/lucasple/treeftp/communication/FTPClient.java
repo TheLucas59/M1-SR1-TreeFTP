@@ -6,6 +6,8 @@ import java.net.Socket;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.lucasple.treeftp.utils.FTPFile;
+
 /**
  * Class called in main method to handle the connection to the distant server and list the files on the server
  * @author lucas
@@ -30,11 +32,9 @@ public class FTPClient {
 		
 		LOGGER.info(connectedPath + " is the current working directory");
 		
-		SocketData socketData = FTPClient.passiveMode(connection);
+		FTPFile architecture = new FTPFile(connectedPath, true);
 		
-		LOGGER.info("address : " + socketData.getAddress() + " port : " + socketData.getPort());
-
-		FTPClient.listDirectory(connection, socketData);
+		listFTPDirectory(connection, architecture);
 		
 		try {
 			connection.close();
@@ -89,7 +89,19 @@ public class FTPClient {
 	 * @param s The socket connected to the distant server
 	 * @param socketData The socket connected to the distant server to receive data in passive mode
 	 */
-	public static void listDirectory(Socket s, SocketData socketData) {
-		ListingHandler.listDirectory(s, socketData);
+	public static void listDirectory(Socket s, SocketData socketData, FTPFile architecture) {
+		ListingHandler.listDirectory(s, socketData, architecture);
+	}
+	
+	public static void listFTPDirectory(Socket connection, FTPFile architecture) {
+		SocketData socketData = FTPClient.passiveMode(connection);
+		FTPClient.listDirectory(connection, socketData, architecture);
+		for(FTPFile file : architecture.getContent()) {
+			if(file.isDirectory()) {
+				// CWD
+				ListingHandler.changeWorkingDirectory(connection, file.getPath());
+				FTPClient.listFTPDirectory(connection, file);
+			}
+		}
 	}
 }

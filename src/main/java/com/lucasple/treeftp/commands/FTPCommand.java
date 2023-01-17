@@ -51,7 +51,7 @@ public abstract class FTPCommand {
 	 * This method checks the response of the distant FTP server to know if it was successful or not
 	 * @param response The response of the distant server
 	 */
-	private void checkResponse(Entry<Integer, String> response) {
+	protected void checkResponse(Entry<Integer, String> response) {
 		if(response.getKey() == expectedStatusCode) {
 			LOGGER.info(commandName + " command successfull");
 		}

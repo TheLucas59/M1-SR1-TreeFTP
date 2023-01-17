@@ -6,10 +6,12 @@ import java.util.Map.Entry;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.lucasple.treeftp.commands.FTPCwd;
 import com.lucasple.treeftp.commands.FTPList;
 import com.lucasple.treeftp.commands.FTPPasv;
 import com.lucasple.treeftp.commands.FTPPwd;
 import com.lucasple.treeftp.exceptions.CommandFailedException;
+import com.lucasple.treeftp.utils.FTPFile;
 
 public class ListingHandler {
 	
@@ -37,6 +39,17 @@ public class ListingHandler {
 		}
 		
 		return resultPhrase.substring(resultPhrase.indexOf("\"")+1, resultPhrase.lastIndexOf("\""));
+	}
+	
+	public static void changeWorkingDirectory(Socket s, String directory) {
+		FTPCwd cwd = new FTPCwd(directory);
+		
+		try {
+			cwd.run(s);
+		}
+		catch(CommandFailedException ce) {
+			LOGGER.error("PWD failed", ce);
+		}
 	}
 	
 	/**
@@ -84,11 +97,10 @@ public class ListingHandler {
 	 * @param s The socket connected to the distant server
 	 * @param socketData The socket to receive data in passive mode from the distant server
 	 */
-	public static void listDirectory(Socket s, SocketData socketData) {
-		FTPList list = new FTPList(socketData);
+	public static void listDirectory(Socket s, SocketData socketData, FTPFile architecture) {
+		FTPList list = new FTPList(socketData, architecture);
 		try {
 			list.run(s);
-			socketData.close();
 		} catch (CommandFailedException e1) {
 			LOGGER.error("Error while running LIST command", e1);
 		}
