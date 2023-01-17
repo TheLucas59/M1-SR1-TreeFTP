@@ -2,10 +2,10 @@
 
 ## Compiler le projet 
 ```
-mvn clean package
+mvn clean compile assembly:single
 ```
 
 ## Lancer le projet 
 ```
-java -cp target/classes com.lucasple.treeftp.app.App
+java -jar target/TreeFTP.jar <address> [<login> <password>]
 ```
