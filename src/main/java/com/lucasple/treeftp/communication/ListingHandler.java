@@ -50,6 +50,8 @@ public class ListingHandler {
 		catch(CommandFailedException ce) {
 			LOGGER.error("PWD failed", ce);
 		}
+		
+		LOGGER.info("Current working directory is now " + directory);
 	}
 	
 	/**

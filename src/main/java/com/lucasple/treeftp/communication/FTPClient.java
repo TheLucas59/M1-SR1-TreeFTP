@@ -2,10 +2,12 @@ package com.lucasple.treeftp.communication;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Arrays;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.lucasple.treeftp.utils.Displayer;
 import com.lucasple.treeftp.utils.FTPFile;
 
 /**
@@ -34,7 +36,9 @@ public class FTPClient {
 		
 		FTPFile architecture = new FTPFile(connectedPath, true);
 		
-		listFTPDirectory(connection, architecture);
+		listFilesFTPServer(connection, architecture);
+		
+		new Displayer().displayFTPArchitecture(Arrays.asList(architecture));
 		
 		try {
 			connection.close();
@@ -93,14 +97,18 @@ public class FTPClient {
 		ListingHandler.listDirectory(s, socketData, architecture);
 	}
 	
-	public static void listFTPDirectory(Socket connection, FTPFile architecture) {
+	/**
+	 * List all the files and directories on the server recusively
+	 * @param connection The socket connected to the distant server
+	 * @param architecture The FTPFile object encapsulating all the files on the server
+	 */
+	public static void listFilesFTPServer(Socket connection, FTPFile architecture) {
 		SocketData socketData = FTPClient.passiveMode(connection);
 		FTPClient.listDirectory(connection, socketData, architecture);
 		for(FTPFile file : architecture.getContent()) {
 			if(file.isDirectory()) {
-				// CWD
 				ListingHandler.changeWorkingDirectory(connection, file.getPath());
-				FTPClient.listFTPDirectory(connection, file);
+				FTPClient.listFilesFTPServer(connection, file);
 			}
 		}
 	}
