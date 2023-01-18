@@ -22,6 +22,32 @@ public class FTPFile {
 		}
 	}
 	
+	public void display(StringBuilder sb) {
+		this.display(sb, 0);
+	}
+	
+	private void display(StringBuilder sb, int depth) {
+		String[] pathSplit = this.getPath().split("/");
+		if(this.isDirectory()) {
+			sb.append(pathSplit.length == 0 ? "/" : pathSplit[pathSplit.length-1]);
+			sb.append("\n");
+		}
+		else {
+			sb.append(pathSplit[pathSplit.length-1]);
+			sb.append("\n");
+		}
+		
+		if(this.getContent() != null) {
+			for(FTPFile fileContent : this.getContent()) {
+				for(int i = 0; i < depth; i++) {
+					sb.append("|   ");
+				}
+				sb.append("├── ");
+				fileContent.display(sb, depth+1);
+			}
+		}
+	}
+	
 	public String getPath() {
 		return path;
 	}
@@ -34,7 +60,6 @@ public class FTPFile {
 	public void setDirectory(boolean directory) {
 		this.directory = directory;
 	}
-
 	public List<FTPFile> getContent() {
 		return content;
 	}

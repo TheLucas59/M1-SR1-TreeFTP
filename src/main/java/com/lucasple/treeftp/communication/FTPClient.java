@@ -18,15 +18,20 @@ import com.lucasple.treeftp.utils.FTPFile;
 public class FTPClient {
 	
 	private static final Log LOGGER = LogFactory.getLog(FTPClient.class);
-
+	
+	private static final int DEFAULT_DEPTH = 99;
+	private static int maxDepth;
+	
 	public static void handle(String address, int port) {
-		FTPClient.handle(address, port, "", "");
+		FTPClient.handle(address, port, "", "", DEFAULT_DEPTH);
 	}
 	
 	/**
 	 * Method called to handle all the process of connection and listing of files on the server
 	 */
-	public static void handle(String address, int port, String login, String password) {
+	public static void handle(String address, int port, String login, String password, int maxDepth) {
+		FTPClient.maxDepth = maxDepth;
+		
 		Socket connection = FTPClient.openConnection(address, port);
 		authenticate(login, password, connection);
 		
@@ -36,7 +41,7 @@ public class FTPClient {
 		
 		FTPFile architecture = new FTPFile(connectedPath, true);
 		
-		listFilesFTPServer(connection, architecture);
+		listFilesFTPServer(connection, architecture, 0);
 		
 		new Displayer().displayFTPArchitecture(Arrays.asList(architecture));
 		
@@ -102,13 +107,13 @@ public class FTPClient {
 	 * @param connection The socket connected to the distant server
 	 * @param architecture The FTPFile object encapsulating all the files on the server
 	 */
-	public static void listFilesFTPServer(Socket connection, FTPFile architecture) {
+	public static void listFilesFTPServer(Socket connection, FTPFile architecture, int depth) {
 		SocketData socketData = FTPClient.passiveMode(connection);
 		FTPClient.listDirectory(connection, socketData, architecture);
 		for(FTPFile file : architecture.getContent()) {
-			if(file.isDirectory()) {
+			if(file.isDirectory() && depth <= FTPClient.maxDepth) {
 				ListingHandler.changeWorkingDirectory(connection, file.getPath());
-				FTPClient.listFilesFTPServer(connection, file);
+				FTPClient.listFilesFTPServer(connection, file, depth+1);
 			}
 		}
 	}

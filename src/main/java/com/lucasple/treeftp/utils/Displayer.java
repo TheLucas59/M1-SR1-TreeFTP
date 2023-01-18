@@ -4,27 +4,17 @@ import java.util.List;
 
 public class Displayer {
 	
+	private StringBuilder sbTree = new StringBuilder();
+	
 	public void displayFTPArchitecture(List<FTPFile> architecture) {
 		for(FTPFile file : architecture) {
-			if(file.getContent() != null) { 
-				for(FTPFile fileContent : file.getContent()) {
-					if(fileContent.isDirectory()) {
-						this.display(fileContent.getPath());
-						this.displayFTPArchitecture(fileContent.getContent());
-					}
-					else {
-						this.display(fileContent.getPath());
-					}
-				}
-			}
-			else {
-				this.display(file.getPath());
-			}
+			file.display(sbTree);
 		}
+		this.display();
 	}
 	
-	private void display(String msg) {
-		System.out.println(msg);
+	public void display() {
+		System.out.println(sbTree.toString());
 	}
 
 }
