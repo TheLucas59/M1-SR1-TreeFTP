@@ -111,7 +111,7 @@ public class FTPClient {
 		SocketData socketData = FTPClient.passiveMode(connection);
 		FTPClient.listDirectory(connection, socketData, architecture);
 		for(FTPFile file : architecture.getContent()) {
-			if(file.isDirectory() && depth <= FTPClient.maxDepth) {
+			if(file.isDirectory() && depth < FTPClient.maxDepth) {
 				ListingHandler.changeWorkingDirectory(connection, file.getPath());
 				FTPClient.listFilesFTPServer(connection, file, depth+1);
 			}

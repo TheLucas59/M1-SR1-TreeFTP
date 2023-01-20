@@ -1,7 +1,9 @@
 package com.lucasple.treeftp.utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Class used to represent the FTP server file architecture
@@ -22,14 +24,19 @@ public class FTPFile {
 		}
 	}
 	
+	/**
+	 * Method that recursively display the content of an FTPFile instance
+	 * The display is similar to the unix "tree" command
+	 * @param sb The StringBuilder used to construct the tree
+	 */
 	public void display(StringBuilder sb) {
-		this.display(sb, 0);
+		this.display(sb, 0, new HashMap<>());
 	}
 	
-	private void display(StringBuilder sb, int depth) {
+	private void display(StringBuilder sb, int depth, Map<Integer, Boolean> verticalBars) {
 		String[] pathSplit = this.getPath().split("/");
 		if(this.isDirectory()) {
-			sb.append(pathSplit.length == 0 ? "/" : pathSplit[pathSplit.length-1]);
+			sb.append(pathSplit.length == 0 ? this.getPath() : pathSplit[pathSplit.length-1]);
 			sb.append("\n");
 		}
 		else {
@@ -38,12 +45,28 @@ public class FTPFile {
 		}
 		
 		if(this.getContent() != null) {
-			for(FTPFile fileContent : this.getContent()) {
-				for(int i = 0; i < depth; i++) {
-					sb.append("|   ");
+			for(int i = 0; i < this.getContent().size(); i++) {
+				FTPFile fileContent = this.getContent().get(i);
+				for(int j = 0; j < depth; j++) {
+					if(verticalBars.containsKey(j) && Boolean.TRUE.equals(verticalBars.get(j))) {
+						sb.append("|   ");
+					}
+					else {
+						sb.append("    ");
+					}
+					
 				}
-				sb.append("├── ");
-				fileContent.display(sb, depth+1);
+				
+				if(i == this.getContent().size() -1) {
+					sb.append("└── ");
+					verticalBars.put(depth, false);
+				}
+				else {
+					sb.append("├── ");
+					verticalBars.put(depth, true);
+				}
+				
+				fileContent.display(sb, depth+1, verticalBars);
 			}
 		}
 	}
