@@ -6,6 +6,11 @@ import java.net.Socket;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+/**
+ * Class that encapsulate a socket and a port. Used to create the data socket after using the PASV command
+ * @author Lucas Plé
+ *
+ */
 public class SocketData {
 	
 	private static final Log LOGGER = LogFactory.getLog(SocketData.class);
@@ -14,6 +19,9 @@ public class SocketData {
 	private int port;
 	private Socket socket;
 	
+	/**
+	 * Opens the data socket
+	 */
 	public void open() {
 		try {
 			this.socket = new Socket(this.address, this.port);
@@ -23,6 +31,9 @@ public class SocketData {
 		}
 	}
 	
+	/**
+	 * Close the socket
+	 */
 	public void close() {
 		try {
 			this.socket.close();

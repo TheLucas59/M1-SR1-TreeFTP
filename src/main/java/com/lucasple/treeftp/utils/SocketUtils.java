@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 /**
  * Utility class used to easily get readable and writable streams from a socket
- * @author lucas
+ * @author Lucas Plé
  *
  */
 public class SocketUtils {

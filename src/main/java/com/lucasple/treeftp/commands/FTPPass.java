@@ -4,6 +4,11 @@ import java.io.PrintWriter;
 
 import com.lucasple.treeftp.utils.SocketUtils;
 
+/**
+ * Class defining the PASS FTP command
+ * @author Lucas Plé
+ *
+ */
 public class FTPPass extends FTPCommand {
 	
 	private String password;

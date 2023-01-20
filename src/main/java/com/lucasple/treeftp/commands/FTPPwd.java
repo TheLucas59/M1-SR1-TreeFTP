@@ -4,6 +4,11 @@ import java.io.PrintWriter;
 
 import com.lucasple.treeftp.utils.SocketUtils;
 
+/**
+ * Class defining the PWD FTP command
+ * @author Lucas Plé
+ *
+ */
 public class FTPPwd extends FTPCommand {
 	
 	public FTPPwd() {

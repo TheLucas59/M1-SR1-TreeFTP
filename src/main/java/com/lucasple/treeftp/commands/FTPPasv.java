@@ -4,6 +4,11 @@ import java.io.PrintWriter;
 
 import com.lucasple.treeftp.utils.SocketUtils;
 
+/**
+ * Class defining the PASV FTP command
+ * @author Lucas Plé
+ *
+ */
 public class FTPPasv extends FTPCommand {
 
 	public FTPPasv() {

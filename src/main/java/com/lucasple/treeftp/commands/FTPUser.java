@@ -4,6 +4,11 @@ import java.io.PrintWriter;
 
 import com.lucasple.treeftp.utils.SocketUtils;
 
+/**
+ * Class defining the USER FTP command
+ * @author Lucas Plé
+ *
+ */
 public class FTPUser extends FTPCommand {
 	
 	private String login;

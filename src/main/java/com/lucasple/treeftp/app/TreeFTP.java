@@ -7,7 +7,7 @@ import com.lucasple.treeftp.communication.FTPClient;
 
 /**
  * Main class that launches the TreeFTP command
- * @author lucas
+ * @author Lucas Plé
  *
  */
 

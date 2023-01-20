@@ -15,6 +15,11 @@ import com.lucasple.treeftp.utils.FTPFile;
 import com.lucasple.treeftp.utils.FTPUtils;
 import com.lucasple.treeftp.utils.SocketUtils;
 
+/**
+ * Class defining the LIST FTP command
+ * @author Lucas Plé
+ *
+ */
 public class FTPList extends FTPCommand {
 	
 	private static final Log LOGGER = LogFactory.getLog(FTPList.class);

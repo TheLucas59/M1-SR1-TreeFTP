@@ -2,7 +2,7 @@ package com.lucasple.treeftp.exceptions;
 
 /**
  * Exception describing the fact that a FTP command has failed when called on the distant server
- * @author lucas
+ * @author Lucas Plé
  *
  */
 public class CommandFailedException extends Exception {

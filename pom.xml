@@ -38,6 +38,16 @@
       	        <appendAssemblyId>false</appendAssemblyId>
 		    </configuration>
 	    </plugin>
+       	<plugin>
+       		<groupId>org.apache.maven.plugins</groupId>
+        	<artifactId>maven-javadoc-plugin</artifactId>
+        	<version>3.4.1</version>
+        	<configuration>
+          		<show>protected</show>
+          		<nohelp>true</nohelp>
+          		<encoding>UTF-8</encoding>
+        	</configuration>
+      	</plugin>
 	 </plugins>
   </build>
   

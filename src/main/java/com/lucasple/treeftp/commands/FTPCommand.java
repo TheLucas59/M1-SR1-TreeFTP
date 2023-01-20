@@ -14,7 +14,7 @@ import com.lucasple.treeftp.utils.SocketUtils;
 
 /**
  * Interface defining any FTP command
- * @author lucas
+ * @author Lucas Plé
  *
  */
 public abstract class FTPCommand {
@@ -42,7 +42,7 @@ public abstract class FTPCommand {
 	}
 
 	/**
-	 * This method must be implemented in the sub-classes and it is where call to the command should be name.
+	 * This method must be implemented in the sub-classes and it is where the call to the command should be name.
 	 * @param writer The writer to run the command on the distant FTP server
 	 */
 	protected abstract void callCommand(PrintWriter writer);

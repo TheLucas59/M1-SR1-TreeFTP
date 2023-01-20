@@ -12,7 +12,7 @@ import com.lucasple.treeftp.utils.FTPFile;
 
 /**
  * Class called in main method to handle the connection to the distant server and list the files on the server
- * @author lucas
+ * @author Lucas Plé
  *
  */
 public class FTPClient {
@@ -67,8 +67,6 @@ public class FTPClient {
 	 * Calls the handler to open the connection to the distant server
 	 * @param address The address of the distant server
 	 * @param port The port to connect to the distant server
-	 * @param login The login to connect in FTP 
-	 * @param password The password to connect in FTP
 	 * @return The socket connected to the distant server
 	 */
 	public static Socket openConnection(String address, int port) {

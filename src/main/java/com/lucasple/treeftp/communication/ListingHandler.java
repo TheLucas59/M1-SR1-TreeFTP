@@ -13,6 +13,11 @@ import com.lucasple.treeftp.commands.FTPPwd;
 import com.lucasple.treeftp.exceptions.CommandFailedException;
 import com.lucasple.treeftp.utils.FTPFile;
 
+/**
+ * Utility class used to navigate on the distant server and list the files
+ * @author Lucas Plé
+ *
+ */
 public class ListingHandler {
 	
 	private static final Log LOGGER = LogFactory.getLog(ListingHandler.class);

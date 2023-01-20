@@ -7,7 +7,7 @@ import java.util.Map;
 
 /**
  * Class used to represent the FTP server file architecture
- * @author lucas
+ * @author Lucas Plé
  *
  */
 public class FTPFile {

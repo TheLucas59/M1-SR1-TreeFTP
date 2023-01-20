@@ -2,7 +2,12 @@
 
 ## Compiler le projet 
 ```
-mvn clean compile assembly:single
+mvn test clean compile assembly:single
+```
+
+## Générer la Javadoc
+```
+mvn javadoc:javadoc
 ```
 
 ## Lancer le projet 

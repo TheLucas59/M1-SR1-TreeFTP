@@ -9,7 +9,7 @@ import com.lucasple.treeftp.exceptions.CommandFailedException;
 
 /**
  * Utility class used to easily handle FTP server responses
- * @author lucas
+ * @author Lucas Plé
  *
  */
 public class FTPUtils {
