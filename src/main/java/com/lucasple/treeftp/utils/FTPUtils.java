@@ -14,6 +14,8 @@ import com.lucasple.treeftp.exceptions.CommandFailedException;
  */
 public class FTPUtils {
 	
+	private FTPUtils() {}
+	
 	public static final int BEGIN_STATUS_CODE = 0;
 	public static final int END_STATUS_CODE = 3;
 	

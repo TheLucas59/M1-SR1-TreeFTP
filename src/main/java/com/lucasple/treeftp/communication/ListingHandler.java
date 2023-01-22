@@ -21,6 +21,8 @@ import com.lucasple.treeftp.utils.SocketData;
  */
 public class ListingHandler {
 	
+	private ListingHandler() {}
+	
 	private static final Log LOGGER = LogFactory.getLog(ListingHandler.class);
 
 	/**

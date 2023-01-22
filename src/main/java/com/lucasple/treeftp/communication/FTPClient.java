@@ -20,6 +20,8 @@ import com.lucasple.treeftp.utils.SocketData;
  */
 public class FTPClient {
 	
+	private FTPClient() {}
+	
 	private static final Log LOGGER = LogFactory.getLog(FTPClient.class);
 	
 	private static final int DEFAULT_DEPTH = 99;
