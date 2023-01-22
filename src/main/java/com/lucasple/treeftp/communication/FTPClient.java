@@ -49,7 +49,8 @@ public class FTPClient {
 		
 		listFilesFTPServer(connection, architecture, 0);
 		
-		new Displayer().displayFTPArchitecture(Arrays.asList(architecture));
+		Displayer displayer = Displayer.getInstance();
+		displayer.displayFTPArchitecture(Arrays.asList(architecture));
 		
 		try {
 			connection.close();
