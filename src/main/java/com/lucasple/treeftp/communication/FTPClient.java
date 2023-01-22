@@ -3,10 +3,12 @@ package com.lucasple.treeftp.communication;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Arrays;
+import java.util.Map.Entry;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.lucasple.treeftp.exceptions.CommandFailedException;
 import com.lucasple.treeftp.utils.Displayer;
 import com.lucasple.treeftp.utils.FTPFile;
 
@@ -22,14 +24,15 @@ public class FTPClient {
 	private static final int DEFAULT_DEPTH = 99;
 	private static int maxDepth;
 	
-	public static void handle(String address, int port) {
+	public static void handle(String address, int port) throws CommandFailedException {
 		FTPClient.handle(address, port, "", "", DEFAULT_DEPTH);
 	}
 	
 	/**
 	 * Method called to handle all the process of connection and listing of files on the server
+	 * @throws CommandFailedException 
 	 */
-	public static void handle(String address, int port, String login, String password, int maxDepth) {
+	public static void handle(String address, int port, String login, String password, int maxDepth) throws CommandFailedException {
 		FTPClient.maxDepth = maxDepth;
 		
 		Socket connection = FTPClient.openConnection(address, port);
@@ -58,8 +61,9 @@ public class FTPClient {
 	 * @param login The login to use on the distant server
 	 * @param password The password to use on the distant server
 	 * @param connection The socket connected to the distant server
+	 * @throws CommandFailedException If the authentication fails
 	 */
-	private static void authenticate(String login, String password, Socket connection) {
+	private static void authenticate(String login, String password, Socket connection) throws CommandFailedException {
 		ConnectionHandler.authenticate(connection, login, password);
 	}
 
@@ -77,8 +81,9 @@ public class FTPClient {
 	 * Method that returns the current directory you're in on the distant server
 	 * @param s The socket connected to the distant server
 	 * @return The name of the directory you're in
+	 * @throws CommandFailedException 
 	 */
-	public static String printWorkingDirectory(Socket s) {
+	public static String printWorkingDirectory(Socket s) throws CommandFailedException {
 		return ListingHandler.printWorkingDirectory(s);
 	}
 	
@@ -86,17 +91,20 @@ public class FTPClient {
 	 * Open a new socket to receive data from the distant server
 	 * @param s The socket connected to the distant server
 	 * @return A socket to receive data in passive mode from the server
+	 * @throws CommandFailedException 
 	 */
-	public static SocketData passiveMode(Socket s) {
-		return ListingHandler.passiveMode(s);
+	public static SocketData passiveMode(Socket s) throws CommandFailedException {
+		Entry<Integer, String> resultPASV = ListingHandler.passiveMode(s);
+		return ListingHandler.createSocketData(resultPASV);
 	}
 	
 	/**
 	 * Calls the FTP LIST command on the distant server
 	 * @param s The socket connected to the distant server
 	 * @param socketData The socket connected to the distant server to receive data in passive mode
+	 * @throws CommandFailedException 
 	 */
-	public static void listDirectory(Socket s, SocketData socketData, FTPFile architecture) {
+	public static void listDirectory(Socket s, SocketData socketData, FTPFile architecture) throws CommandFailedException {
 		ListingHandler.listDirectory(s, socketData, architecture);
 	}
 	
@@ -104,8 +112,9 @@ public class FTPClient {
 	 * List all the files and directories on the server recusively
 	 * @param connection The socket connected to the distant server
 	 * @param architecture The FTPFile object encapsulating all the files on the server
+	 * @throws CommandFailedException 
 	 */
-	public static void listFilesFTPServer(Socket connection, FTPFile architecture, int depth) {
+	public static void listFilesFTPServer(Socket connection, FTPFile architecture, int depth) throws CommandFailedException {
 		SocketData socketData = FTPClient.passiveMode(connection);
 		FTPClient.listDirectory(connection, socketData, architecture);
 		for(FTPFile file : architecture.getContent()) {

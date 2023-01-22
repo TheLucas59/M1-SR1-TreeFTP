@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Class used to represent the FTP server file architecture
@@ -85,5 +86,26 @@ public class FTPFile {
 	}
 	public List<FTPFile> getContent() {
 		return content;
+	}
+	public void setContent(List<FTPFile> content) {
+		this.content = content;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(content, directory, path);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		FTPFile other = (FTPFile) obj;
+		return Objects.equals(content, other.content) && directory == other.directory
+				&& Objects.equals(path, other.path);
 	}
 }

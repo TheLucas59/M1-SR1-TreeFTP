@@ -26,17 +26,13 @@ public class ListingHandler {
 	 * Calls the FTP PWD command on the distant server
 	 * @param s The socket connected to the distant server
 	 * @return The name of the current directory
+	 * @throws CommandFailedException 
 	 */
-	public static String printWorkingDirectory(Socket s) {
+	public static String printWorkingDirectory(Socket s) throws CommandFailedException {
 		FTPPwd pwd = new FTPPwd();
 		Entry<Integer, String> result = null;
 		
-		try {
-			result = pwd.run(s);
-		}
-		catch(CommandFailedException ce) {
-			LOGGER.error("PWD failed", ce);
-		}
+		result = pwd.run(s);
 		
 		String resultPhrase = "";
 		if(result != null) {
@@ -46,16 +42,15 @@ public class ListingHandler {
 		return resultPhrase.substring(resultPhrase.indexOf("\"")+1, resultPhrase.lastIndexOf("\""));
 	}
 	
-	public static void changeWorkingDirectory(Socket s, String directory) {
+	/**
+	 * Calls the FTP CWD command on the distant server
+	 * @param s The socket connected to the distant server
+	 * @param directory The name of the directory to go
+	 * @throws CommandFailedException
+	 */
+	public static void changeWorkingDirectory(Socket s, String directory) throws CommandFailedException {
 		FTPCwd cwd = new FTPCwd(directory);
-		
-		try {
-			cwd.run(s);
-		}
-		catch(CommandFailedException ce) {
-			LOGGER.error("PWD failed", ce);
-		}
-		
+		cwd.run(s);
 		LOGGER.info("Current working directory is now " + directory);
 	}
 	
@@ -63,19 +58,21 @@ public class ListingHandler {
 	 * Calls the FTP PASV command on the distant server
 	 * @param s The socket connected to the distant server
 	 * @return A new socket to receive data in passive mode from the distant server
+	 * @throws CommandFailedException 
 	 */
-	public static SocketData passiveMode(Socket s) {
+	public static Entry<Integer, String> passiveMode(Socket s) throws CommandFailedException {
 		FTPPasv pasv = new FTPPasv();
-		
 		Entry<Integer, String> result = null;
-		
-		try {
-			result = pasv.run(s);
-		}
-		catch(CommandFailedException ce) {
-			LOGGER.error("PWD failed", ce);
-		}
-		
+		result = pasv.run(s);
+		return result;
+	}
+
+	/**
+	 * Create a SocketData from the result of PASV command
+	 * @param result The result of PASV
+	 * @return A SocketData object to receive data from the distant server
+	 */
+	protected static SocketData createSocketData(Entry<Integer, String> result) {
 		String resultPhrase = "";
 		if(result != null) {
 			resultPhrase = result.getValue();
@@ -103,14 +100,11 @@ public class ListingHandler {
 	 * Calls the FTP LIST command on the distant server
 	 * @param s The socket connected to the distant server
 	 * @param socketData The socket to receive data in passive mode from the distant server
+	 * @throws CommandFailedException 
 	 */
-	public static void listDirectory(Socket s, SocketData socketData, FTPFile architecture) {
+	public static void listDirectory(Socket s, SocketData socketData, FTPFile architecture) throws CommandFailedException {
 		FTPList list = new FTPList(socketData, architecture);
-		try {
-			list.run(s);
-		} catch (CommandFailedException e1) {
-			LOGGER.error("Error while running LIST command", e1);
-		}
+		list.run(s);
 	}
 	
 }

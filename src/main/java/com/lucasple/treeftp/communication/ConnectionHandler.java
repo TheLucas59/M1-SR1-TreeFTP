@@ -59,16 +59,12 @@ public class ConnectionHandler {
 	 * @param s The Socket connected to the targeted server
 	 * @param login The login that will be used with the USER command
 	 * @param password The password that will be used with the PASS command
+	 * @throws CommandFailedException 
 	 */
-	public static void authenticate(Socket s, String login, String password) {
+	public static void authenticate(Socket s, String login, String password) throws CommandFailedException {
 		FTPUser userCommand = new FTPUser(login);
 		FTPPass passCommand = new FTPPass(password);
-		try {
-			userCommand.run(s);
-			passCommand.run(s);
-		}
-		catch(CommandFailedException ce) {
-			LOGGER.error("Connection failed", ce);
-		}
+		userCommand.run(s);
+		passCommand.run(s);
 	}
 }

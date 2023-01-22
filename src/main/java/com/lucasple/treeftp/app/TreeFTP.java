@@ -4,6 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.lucasple.treeftp.communication.FTPClient;
+import com.lucasple.treeftp.exceptions.CommandFailedException;
 
 /**
  * Main class that launches the TreeFTP command
@@ -28,14 +29,22 @@ public class TreeFTP {
     	
     	if(args.length == NB_PARAMS_MIN_EXPECTED) {
     		address = args[0];
-    		FTPClient.handle(address, FTP_PORT);
+    		try {
+				FTPClient.handle(address, FTP_PORT);
+			} catch (CommandFailedException e) {
+				LOGGER.error("Error during the FTP process", e);
+			}
     	}
     	else if(args.length == NB_PARAMS_MAX_EXPECTED) {
     		address = args[0];
     		login = args[1];
     		password = args[2];
     		maxDepth = Integer.parseInt(args[3]);
-    		FTPClient.handle(address, FTP_PORT, login, password, maxDepth);
+    		try {
+				FTPClient.handle(address, FTP_PORT, login, password, maxDepth);
+			} catch (CommandFailedException e) {
+				LOGGER.error("Error during the FTP process", e);
+			}
     	}
     	else {
     		LOGGER.info("Provide at least the arguments required : <address> and if you want the two following : <login> <password>");

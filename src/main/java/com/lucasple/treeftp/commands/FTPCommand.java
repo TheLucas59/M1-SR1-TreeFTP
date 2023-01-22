@@ -34,7 +34,7 @@ public abstract class FTPCommand {
 		BufferedReader reader = SocketUtils.getReadableInputStream(s);
 		PrintWriter writer = SocketUtils.getWritableOutputStream(s);
 		
-		callCommand(writer);
+		this.callCommand(writer);
 		Entry<Integer, String> response = FTPUtils.getFTPResponse(reader);
 		checkResponse(response);
 		
@@ -50,13 +50,15 @@ public abstract class FTPCommand {
 	/**
 	 * This method checks the response of the distant FTP server to know if it was successful or not
 	 * @param response The response of the distant server
+	 * @throws CommandFailedException 
 	 */
-	protected void checkResponse(Entry<Integer, String> response) {
+	protected void checkResponse(Entry<Integer, String> response) throws CommandFailedException {
 		if(response.getKey() == expectedStatusCode) {
 			LOGGER.info(commandName + " command successfull");
 		}
 		else {
 			LOGGER.warn(commandName + " command returned an unexpected status : " + response.getKey() + " : " + response.getValue());
+			throw new CommandFailedException(response.getValue());
 		}
 	}
 }
