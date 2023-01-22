@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Class used to represent the FTP server file architecture
@@ -26,7 +25,7 @@ public class FTPFile {
 	}
 	
 	/**
-	 * Method that recursively display the content of an FTPFile instance
+	 * Method that recursively display the content of an FTPFile instance in a tree format
 	 * The display is similar to the unix "tree" command
 	 * @param sb The StringBuilder used to construct the tree
 	 */
@@ -72,6 +71,73 @@ public class FTPFile {
 		}
 	}
 	
+	/**
+	 * Method that recursively display the content of an FTPFile instance in a JSON format
+	 * @param sb The StringBuilder used to construct the tree
+	 */
+	public void displayAsJSON(StringBuilder sb) {
+		this.displayAsJSON(sb, 0, true);
+	}
+	
+	private void displayAsJSON(StringBuilder sb, int depth, boolean endOfDirectory) {
+		String[] pathSplit = this.getPath().split("/");
+		String name = "";
+		if(pathSplit.length > 0) {
+			name = pathSplit[pathSplit.length-1];
+		}
+		else {
+			name = this.getPath();
+		}
+		
+		for(int i = 0; i < depth; i++) {
+			sb.append("    ");
+		}
+		
+		if(this.isDirectory()) {
+			sb.append("{\"type\" : \"directory\", \"name\" : \"");
+			sb.append(name);
+			sb.append("\", \"content\" : [");
+			boolean newLine = false;
+			if(!this.getContent().isEmpty()) {
+				newLine = true;
+				for(int i = 0; i < this.getContent().size(); i++) {
+					FTPFile file = this.getContent().get(i);
+					sb.append("\n");
+					if(i == this.getContent().size()-1) {
+						file.displayAsJSON(sb, depth+1, true);
+					}
+					else {
+						file.displayAsJSON(sb, depth+1, false);
+					}
+				}
+			}
+			if(newLine) {
+				sb.append("\n");
+				for(int i = 0; i < depth; i++) {
+					sb.append("    ");
+				}
+			}
+			if(endOfDirectory) {
+				sb.append("]}");
+			}
+			else {
+				sb.append("]},");
+			}
+		}
+		else {
+			sb.append("{\"type\" : \"file\", \"name\" : \"");
+			sb.append(name);
+			sb.append("\"");
+			if(endOfDirectory) {
+				sb.append("}");
+			}
+			else {
+				sb.append("},");
+			}
+		}
+	}
+
+	
 	public String getPath() {
 		return path;
 	}
@@ -89,23 +155,5 @@ public class FTPFile {
 	}
 	public void setContent(List<FTPFile> content) {
 		this.content = content;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(content, directory, path);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		FTPFile other = (FTPFile) obj;
-		return Objects.equals(content, other.content) && directory == other.directory
-				&& Objects.equals(path, other.path);
 	}
 }

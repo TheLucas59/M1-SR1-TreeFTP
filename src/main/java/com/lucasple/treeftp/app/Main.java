@@ -22,13 +22,14 @@ public class Main {
 	private static final String USER_OPTION = "-u";
 	private static final String PASSWORD_OPTION = "-p";
 	private static final String DEPTH_OPTION = "-d";
-
+	private static final String JSON_OPTION = "--json";
 	
     public static void main(String[] args) {
     	String address = "";
     	String user = "";
     	String password = "";
     	int maxDepth = DEFAULT_DEPTH;
+    	boolean json = false;
     	
     	if(args.length > 0) {
     		address = args[0];
@@ -43,6 +44,9 @@ public class Main {
 	    			case DEPTH_OPTION :
 	    				maxDepth = Integer.parseInt(args[++i]);
 	    				break;
+	    			case JSON_OPTION :
+	    				json = true;
+	    				break;
 	    			default :
 	    				LOGGER.error("The option " + args[i] + " does not exist.");
 	    				System.exit(1);
@@ -51,7 +55,7 @@ public class Main {
     	}
     	
 		try {
-			FTPClient.handle(address, FTP_PORT, user, password, maxDepth);
+			FTPClient.handle(address, FTP_PORT, user, password, maxDepth, json);
 		} catch (CommandFailedException e) {
 			LOGGER.error("Error during the FTP process", e);
 		}

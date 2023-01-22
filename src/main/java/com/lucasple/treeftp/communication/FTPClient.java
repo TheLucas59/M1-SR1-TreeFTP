@@ -9,9 +9,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.lucasple.treeftp.exceptions.CommandFailedException;
-import com.lucasple.treeftp.utils.Displayer;
 import com.lucasple.treeftp.utils.FTPFile;
 import com.lucasple.treeftp.utils.SocketData;
+import com.lucasple.treeftp.utils.displayers.TreeDisplayer;
+import com.lucasple.treeftp.utils.displayers.Displayer;
+import com.lucasple.treeftp.utils.displayers.JSONDisplayer;
 
 /**
  * Class called in main method to handle the connection to the distant server and list the files on the server
@@ -24,18 +26,13 @@ public class FTPClient {
 	
 	private static final Log LOGGER = LogFactory.getLog(FTPClient.class);
 	
-	private static final int DEFAULT_DEPTH = 99;
 	private static int maxDepth;
-	
-	public static void handle(String address, int port) throws CommandFailedException {
-		FTPClient.handle(address, port, "", "", DEFAULT_DEPTH);
-	}
 	
 	/**
 	 * Method called to handle all the process of connection and listing of files on the server
 	 * @throws CommandFailedException 
 	 */
-	public static void handle(String address, int port, String login, String password, int maxDepth) throws CommandFailedException {
+	public static void handle(String address, int port, String login, String password, int maxDepth, boolean json) throws CommandFailedException {
 		FTPClient.maxDepth = maxDepth;
 		
 		Socket connection = FTPClient.openConnection(address, port);
@@ -49,7 +46,7 @@ public class FTPClient {
 		
 		listFilesFTPServer(connection, architecture, 0);
 		
-		Displayer displayer = Displayer.getInstance();
+		Displayer displayer = getDisplayer(json);
 		displayer.displayFTPArchitecture(Arrays.asList(architecture));
 		
 		try {
@@ -127,5 +124,12 @@ public class FTPClient {
 				FTPClient.listFilesFTPServer(connection, file, depth+1);
 			}
 		}
+	}
+	
+	private static Displayer getDisplayer(boolean json) {
+		if(json) {
+			return JSONDisplayer.getInstance();
+		}
+		return TreeDisplayer.getInstance();
 	}
 }
