@@ -12,6 +12,7 @@ import com.lucasple.treeftp.commands.FTPPasv;
 import com.lucasple.treeftp.commands.FTPPwd;
 import com.lucasple.treeftp.exceptions.CommandFailedException;
 import com.lucasple.treeftp.utils.FTPFile;
+import com.lucasple.treeftp.utils.SocketData;
 
 /**
  * Utility class used to navigate on the distant server and list the files

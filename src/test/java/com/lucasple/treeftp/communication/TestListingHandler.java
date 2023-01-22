@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 
 import com.lucasple.treeftp.exceptions.CommandFailedException;
 import com.lucasple.treeftp.utils.FTPFile;
+import com.lucasple.treeftp.utils.SocketData;
 
 public class TestListingHandler {
 	

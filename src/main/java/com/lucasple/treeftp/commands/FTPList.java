@@ -9,10 +9,10 @@ import java.util.Map.Entry;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.lucasple.treeftp.communication.SocketData;
 import com.lucasple.treeftp.exceptions.CommandFailedException;
 import com.lucasple.treeftp.utils.FTPFile;
 import com.lucasple.treeftp.utils.FTPUtils;
+import com.lucasple.treeftp.utils.SocketData;
 import com.lucasple.treeftp.utils.SocketUtils;
 
 /**

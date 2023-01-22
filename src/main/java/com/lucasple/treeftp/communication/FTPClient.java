@@ -11,6 +11,7 @@ import org.apache.commons.logging.LogFactory;
 import com.lucasple.treeftp.exceptions.CommandFailedException;
 import com.lucasple.treeftp.utils.Displayer;
 import com.lucasple.treeftp.utils.FTPFile;
+import com.lucasple.treeftp.utils.SocketData;
 
 /**
  * Class called in main method to handle the connection to the distant server and list the files on the server

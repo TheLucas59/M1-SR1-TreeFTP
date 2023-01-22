@@ -14,8 +14,8 @@ import com.lucasple.treeftp.exceptions.CommandFailedException;
  */
 public class FTPUtils {
 	
-	public static final int beginStatusCode = 0;
-	public static final int endStatusCode = 3;
+	public static final int BEGIN_STATUS_CODE = 0;
+	public static final int END_STATUS_CODE = 3;
 	
 	/**
 	 * Method that provide a couple of the status code and the status message of a FTP server response
@@ -39,7 +39,7 @@ public class FTPUtils {
 	 * @return The code as an int
 	 */
 	private static int getFTPStatusCode(String ftpResponse) {
-		return Integer.parseInt(ftpResponse.substring(beginStatusCode, endStatusCode));
+		return Integer.parseInt(ftpResponse.substring(BEGIN_STATUS_CODE, END_STATUS_CODE));
 	}
 	
 	/**
@@ -48,7 +48,7 @@ public class FTPUtils {
 	 * @return The message following the code
 	 */
 	private static String getFTPStatusMessage(String ftpResponse) {
-		return ftpResponse.substring(endStatusCode);
+		return ftpResponse.substring(END_STATUS_CODE);
 	}
 
 }

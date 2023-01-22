@@ -1,4 +1,4 @@
-package com.lucasple.treeftp.communication;
+package com.lucasple.treeftp.utils;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -7,7 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Class that encapsulate a socket and a port. Used to create the data socket after using the PASV command
+ * Class that encapsulate a socket and a port, used to create the data socket after using the PASV command
  * @author Lucas Plé
  *
  */

@@ -14,7 +14,7 @@ import com.lucasple.treeftp.utils.FTPUtils;
 import com.lucasple.treeftp.utils.SocketUtils;
 
 /**
- * Class handling the connection to the FTP Server
+ * Utiliy class handling the connection to the FTP Server
  * @author Lucas Plé
  *
  */
