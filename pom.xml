@@ -28,7 +28,7 @@
 		    <configuration>
 		        <archive>
 		            <manifest>
-		                <mainClass>com.lucasple.treeftp.app.TreeFTP</mainClass>
+		                <mainClass>com.lucasple.treeftp.app.Main</mainClass>
 		            </manifest>
 		        </archive>
 		        <descriptorRefs>
