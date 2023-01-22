@@ -9,7 +9,18 @@ import java.util.List;
  */
 public class Displayer {
 	
+	private static Displayer instance;
+	
 	private StringBuilder sbTree = new StringBuilder();
+	
+	private Displayer() {}
+	
+	public static Displayer getInstance() {
+		if(instance == null) {
+			instance = new Displayer();
+		}
+		return instance;
+	}
 	
 	/**
 	 * Displays the architecture of a FTP Server that has been analysed
