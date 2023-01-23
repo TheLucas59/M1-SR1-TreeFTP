@@ -34,7 +34,6 @@ public class TestListingHandler {
 
 	@BeforeEach
 	public void openConnection() throws UnknownHostException, IOException, CommandFailedException {
-		System.out.println("SALUT");
 		this.connection = ConnectionHandler.openConnection(ADDRESS, PORT);
 		ConnectionHandler.authenticate(connection, LOGIN, PASSWORD);
 	}
