@@ -24,10 +24,12 @@ public class Main {
 	private static final String DEPTH_OPTION = "-d";
 	private static final String JSON_OPTION = "--json";
 	
+	private static final String ANONYMOUS = "anonymous";
+	
     public static void main(String[] args) {
     	String address = "";
-    	String user = "";
-    	String password = "";
+    	String user = ANONYMOUS;
+    	String password = ANONYMOUS;
     	int maxDepth = DEFAULT_DEPTH;
     	boolean json = false;
     	
