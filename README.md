@@ -5,7 +5,11 @@
 ## Introduction
 Ce logiciel permet de se connecter à un serveur FTP et de lister sous la forme d'un arbre les fichiers présents sur le serveur. L'affichage de l'architecture des fichiers du serveur s'inspire fortement de la commande UNIX [tree](https://linux.die.net/man/1/tree).
 
-Voici les commandes élémentaires afin d'utiliser le projet :
+### Prérequis pour installer le projet
+- [Java 11](https://www.oracle.com/fr/java/technologies/javase/jdk11-archive-downloads.html)
+- [Maven](https://maven.apache.org/)
+
+Voici les commandes élémentaires à lancer depuis la racine du projet afin de l'utiliser :
 
 ### Compiler le projet 
 ```
@@ -29,10 +33,12 @@ java -jar target/TreeFTP.jar <address> [(OPTION) (VALEUR)]
 Options disponibles :
 -u : spécifier un login pour la connexion au serveur 
 -p : spécifier un mot de passe pour la connexion au serveur FTP
--d : spécifier une profondeur d'exploration du serveur (valeur par défaut arbitraire à 99, normalement suffisamment grande pour parcourir l'ensemble d'un serveur FTP)
+-d : spécifier une profondeur d'exploration du serveur (commence à 0, valeur par défaut arbitraire à 99, normalement suffisamment grande pour parcourir l'ensemble d'un serveur FTP)
 
 Veillez à toujours spécifier une valeur après ces arguments. 
 Il existe également l'argument --json qui lui ne doit pas avoir de valeur à sa suite. Il peut être placé n'importe où après l'adresse du serveur sur lequel le programme doit se connecter. Il permet d'afficher l'arborescence du serveur FTP au format JSON.
+
+Si les paramètres -u ou -p ne sont pas spécifiés lors du lancement du programme, ils prendront comme valeur par défaut "anonymous". 
 
 Par exemple pour se connecter au serveur `ftp.ubuntu.com` avec l'utilisateur 'Jean' et le mot de passe 'bonjour' :
 java -jar target/TreeFTP.jar ftp.ubuntu.com -u Jean -p bonjour
